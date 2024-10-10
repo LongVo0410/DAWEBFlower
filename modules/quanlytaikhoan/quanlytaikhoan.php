@@ -1,5 +1,5 @@
 
-<form action="admin.php?view=quanlydanhmuc" method="POST">
+<form action="xuly.php" method="POST">
     <table border="1">
         <tr>
             <th>Tên</th>
