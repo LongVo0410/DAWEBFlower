@@ -20,17 +20,30 @@ include "index.php";
             <input type="text" placeholder="Tìm sản phẩm...">
             <button><i class="fa fa-search"></i></button>
         </div>
-        <div class="actions">
-            <a href="#"><i class="fa fa-phone"></i> Liên hệ :0862775939</a>
-            <div class="account-link">
-                <a href="#"><i class="fa fa-user"></i> Thông tin tài khoản</a>
-                <div class="account-dropdown">
-                    <a href="#">Đăng nhập</a>
-                    <a href="#">Đăng ký</a>
+        <?php
+            session_start(); // Bắt đầu phiên
+
+            // Kiểm tra nếu người dùng đã đăng nhập
+            if (isset($_SESSION['username'])) {
+                $user_greeting = "Chào " . $_SESSION['username'] . ' | <a href="logout.php">Đăng xuất</a>';
+            }
+            else {
+                $user_greeting = '<a href="#"><i class="fa fa-user"></i> Thông tin tài khoản</a>
+                                <div class="account-dropdown">
+                                    <a href="login.php">Đăng nhập</a>
+                                    <a href="dangky.php">Đăng ký</a>
+                                </div>';
+            }
+            ?>
+
+            <div class="actions">
+                <a href="#"><i class="fa fa-phone"></i> Liên hệ :0862775939</a>
+                <div class="account-link">
+                   <?php echo "<span style='font-size: 200%;'>".$user_greeting."</span>" ?>
                 </div>
+                <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng <span>0</span></a>
             </div>
-            <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng <span>0</span></a>
-        </div>
+
     </div>
     <header>
         <input type="checkbox" name="" id="toggler">

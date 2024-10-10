@@ -11,17 +11,25 @@ include "index.php";
   </head>
   <body>
     <?php
+    session_start();
     if (isset($_POST['login'])) {
         $email = $_POST['email'];
         $password = sha1($_POST['password1']); // Hash the password
         $flagtbao = false;
         // Prepare SQL query to check credentials
         $sql = "SELECT * FROM dangky WHERE email = '$email' AND password = '$password'";
-        $result=$connect->prepare($sql);
-        $result->execute();
+        $result = mysqli_query($connect, $sql);
+      
         if($result->num_rows>0){
+            $user = mysqli_fetch_assoc($result);
+            $_SESSION['username'] = $user['name'];
             $flagtbao=true;
+            header('location:trangchu.php');
         }
+        else{
+            header('location:login.php');
+        }
+        
 
     }
     ?>
@@ -34,6 +42,10 @@ include "index.php";
                             <div class="card" style="border-radius: 15px;">
                                 <div class="card-body p-5">
                                     <h2 class="text-uppercase text-center mb-5">Login</h2>
+                                    <?php 
+                                    echo '<p style="color: red;">Đăng nhập không thành công!!!</p>';
+
+                                    ?>
                                     <div data-mdb-input-init class="form-outline mb-4">
                                         <input type="email" name="email" class="form-control form-control-lg"  />
                                         <label class="form-label" for="email">Your Email</label>
@@ -69,14 +81,17 @@ include "index.php";
                     Swal.fire({
                         icon: "success",
                         title: "Đăng nhập thành công",
+                        
                     });
-
+                    
                 } else {
                     Swal.fire({
                         icon: "error",
                         title: "Đăng nhập thất bại",
                         text: "Password or Email không tìm thấy!"
                     });
+                    
+                    
                 }
             <?php endif; ?>
         });
